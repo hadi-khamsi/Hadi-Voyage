@@ -96,7 +96,7 @@ const LaunchesPage = () => {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-4">Upcoming Spacecraft Launches</h1>
       <p className="text-lg mb-6">
-        List of upcoming spacecraft launches. For more details, check the{" "}
+        For more detailed schedules, check the{" "}
         <a
           href="https://spaceflightnow.com/launch-schedule/"
           target="_blank"
@@ -105,7 +105,6 @@ const LaunchesPage = () => {
         >
           Spaceflight Now Launch Schedule
         </a>
-        .
       </p>
 
       {paginatedLaunches.map((launch) => (

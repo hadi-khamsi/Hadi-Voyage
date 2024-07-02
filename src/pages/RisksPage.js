@@ -78,11 +78,16 @@ const MeteorShowersPage = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-4">Upcoming Near-Earth Asteroids</h1>
-      <p className="text-lg mb-6">
-        Explore information about upcoming near-Earth asteroids approaching
-        Earth. Be aware of the potential risks associated with these celestial
-        bodies.
-      </p>
+      <div className="mb-6">
+        <p className="text-lg mb-2">
+          Stay updated on upcoming asteroids approaching Earth's orbit
+        </p>
+        <p className="text-lg mb-2">
+          <strong>Warning:</strong> These celestial bodies can pose potential
+          risks. Take caution regarding collision possibilities, mitigation
+          strategies, and impact areas.
+        </p>
+      </div>
 
       {loading ? (
         <div className="flex justify-center items-center h-64">

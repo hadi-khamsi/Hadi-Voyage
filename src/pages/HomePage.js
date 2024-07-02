@@ -33,7 +33,7 @@ const HomePage = () => {
               href="https://www.autoevolution.com/news/eos-x-space-announces-first-tourist-flights-to-the-edge-of-space-for-2025-235907.html"
               target="_blank"
               rel="noopener noreferrer"
-              className="border border-white text-white py-3 px-8 transition duration-300 ease-in-out inline-block mb-4"
+              className="border border-white text-white py-3 px-8 transition duration-300 ease-in-out inline-block mb-4 hover:bg-white hover:text-black"
             >
               Read More
             </a>
@@ -95,7 +95,7 @@ const HomePage = () => {
               href="https://linkedin.com/company/hadivoyage"
               target="_blank"
               rel="noopener noreferrer"
-              className="border border-white text-white py-3 px-8 transition duration-300 ease-in-out inline-block mb-4"
+              className="border border-white text-white py-3 px-8 transition duration-300 ease-in-out inline-block mb-4 hover:bg-white hover:text-black"
             >
               Learn More
             </a>

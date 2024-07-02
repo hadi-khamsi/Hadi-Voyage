@@ -1,0 +1,37 @@
+{
+  "files": {
+    "main.css": "/Hadi-Voyage/static/css/main.f30f2d3a.css",
+    "main.js": "/Hadi-Voyage/static/js/main.5ac8ed48.js",
+    "static/media/VirginInside.jpeg": "/Hadi-Voyage/static/media/VirginInside.158f844c638e13bf6b40.jpeg",
+    "static/media/HavenOutside.jpeg": "/Hadi-Voyage/static/media/HavenOutside.b585f120b9c24ae3d52b.jpeg",
+    "static/media/Launch.jpeg": "/Hadi-Voyage/static/media/Launch.8307dbd25065f1470b19.jpeg",
+    "static/media/StarshipOutside.webp": "/Hadi-Voyage/static/media/StarshipOutside.876bf60f2a62b8b9b60c.webp",
+    "static/media/BlueInside.webp": "/Hadi-Voyage/static/media/BlueInside.5c5705a0c78de997ccaa.webp",
+    "static/media/AxiomOutside.jpeg": "/Hadi-Voyage/static/media/AxiomOutside.2b26b321aa3382ebe7f2.jpeg",
+    "static/media/AxiomInside.jpeg": "/Hadi-Voyage/static/media/AxiomInside.7254c3843cf6d9346180.jpeg",
+    "static/media/StarshipInside.jpeg": "/Hadi-Voyage/static/media/StarshipInside.877d92cce465b7dccd7d.jpeg",
+    "static/media/StarlinerInside.jpeg": "/Hadi-Voyage/static/media/StarlinerInside.aaa5d375cdbf32802f19.jpeg",
+    "static/media/DragonInside.webp": "/Hadi-Voyage/static/media/DragonInside.8b94a493ac0102883364.webp",
+    "static/media/HypersonicOutside.jpeg": "/Hadi-Voyage/static/media/HypersonicOutside.7aa85be1319b6d1f39e3.jpeg",
+    "static/media/HavenInside.webp": "/Hadi-Voyage/static/media/HavenInside.dff3590bb67b8a4c2a9e.webp",
+    "static/media/WorldMap.jpeg": "/Hadi-Voyage/static/media/WorldMap.58462fec2c0d5694d011.jpeg",
+    "static/media/Apple.png": "/Hadi-Voyage/static/media/Apple.d7f1231ad159ba606342.png",
+    "static/media/pin.png": "/Hadi-Voyage/static/media/pin.f23fb226100ecb4b7d9b.png",
+    "static/media/Mobile.png": "/Hadi-Voyage/static/media/Mobile.481f2ee8d0e78831ddc0.png",
+    "static/media/BlueOutside.jpeg": "/Hadi-Voyage/static/media/BlueOutside.87c8a51c41a4a960aaf2.jpeg",
+    "static/media/HypersonicInside.webp": "/Hadi-Voyage/static/media/HypersonicInside.57772fb31d3d767bcd6c.webp",
+    "static/media/Sample.avif": "/Hadi-Voyage/static/media/Sample.8413e5163f4041e9886f.avif",
+    "static/media/DragonOutside.avif": "/Hadi-Voyage/static/media/DragonOutside.183870ec8a308f218255.avif",
+    "static/media/StarlinerOutside.webp": "/Hadi-Voyage/static/media/StarlinerOutside.dd50de2c428f9bcd408a.webp",
+    "static/media/VirginOutside.webp": "/Hadi-Voyage/static/media/VirginOutside.ac16d4cf717c33e96f2d.webp",
+    "static/media/Logo.png": "/Hadi-Voyage/static/media/Logo.3915445b022f94c0c18f.png",
+    "static/media/Email.png": "/Hadi-Voyage/static/media/Email.b0736794c5c792518604.png",
+    "index.html": "/Hadi-Voyage/index.html",
+    "main.f30f2d3a.css.map": "/Hadi-Voyage/static/css/main.f30f2d3a.css.map",
+    "main.5ac8ed48.js.map": "/Hadi-Voyage/static/js/main.5ac8ed48.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f30f2d3a.css",
+    "static/js/main.5ac8ed48.js"
+  ]
+}

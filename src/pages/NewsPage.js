@@ -28,14 +28,12 @@ const NewsPage = () => {
 
         <div className="text-lg">
           <p className="mb-4">
-            Hadi Voyage is currently in its developmental phase, with our team
-            of engineers working tirelessly to enhance your website experience
-            and ensure a more comprehensive agent connecting experience. We are
-            dedicated to bringing you the latest advancements and news in space
-            travel.
+          Hadi Voyage is currently in its development phase, where our team of engineers and experts is diligently working to elevate your website experience. We are focused on expanding our capabilities in agent connectivity, ensuring seamless interactions and comprehensive service offerings. Our commitment extends to pioneering innovations in space travel, aiming to redefine the future of cosmic exploration and make the childhood dream of flying to space a reality.
           </p>
           <p>
-            For more information, visit our{" "}
+          If you are interested in partnering with us, please reach out to discuss potential collaborations.
+
+          For more information, visit our{" "}
             <a
               href="https://linkedin.com/in/hadivoyage"
               target="_blank"

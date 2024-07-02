@@ -19,15 +19,16 @@ const Reserve = () => {
           </h1>
           <p className="text-lg mb-8">
             Discover the future of travel with Hadi Voyage. Reserve your seat on
-            upcoming commercial spacecraft flights designed to explore the
-            cosmos. Our flights operate in accordance with international space
-            laws and are currently pending final regulatory approvals. We are in
-            constant communication with our vendors and partners to ensure the
-            best possible experience for our passengers.
+            upcoming commercial spacecraft flights designed for cosmic
+            exploration. Our flights comply with international space laws and
+            are awaiting final regulatory approvals. Each flight includes
+            several days of personalized training and preparation before
+            departure. We maintain ongoing communication with our vendors and
+            partners to ensure the highest standards for our passengers.
           </p>
           <p className="text-lg mb-8">
-            We are aiming to launch our first flights later this year. Stay
-            tuned for more updates on our progress.
+            We are targeting the launch of our inaugural flights in the near
+            future. Stay tuned for further updates on our progress.
           </p>
         </div>
       </div>
