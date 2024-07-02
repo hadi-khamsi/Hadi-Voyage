@@ -141,10 +141,7 @@ const HomePage = () => {
               <img src={AppleIcon} alt="Get it on App Store" className="h-8" />
             </a>
           </div>
-          <div className="mt-4 text-center text-gray-500">
-            <span className="text-gray-400">© 2024</span> Hadi Voyage. All
-            rights reserved.
-          </div>
+       
         </div>
       </div>
     </div>

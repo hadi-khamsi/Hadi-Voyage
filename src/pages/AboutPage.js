@@ -8,7 +8,7 @@ const AboutPage = () => {
           Our Story
         </h1>
         <p className="text-lg text-gray-700 mb-8">
-          At Hadi Voyage, we are passionate about making space travel a reality
+          At Hadi Voyage™, we are passionate about making space travel a reality
           for everyone. Inspired by our childhood dreams of exploring the
           cosmos, we recognized a crucial gap in accessible, centralized
           information for aspiring space travelers.
@@ -26,9 +26,6 @@ const AboutPage = () => {
           researcher, or simply curious about the cosmos, Hadi Voyage is your
           gateway to discovering the wonders of space.
         </p>
-      </div>
-      <div className="mt-4 text-gray-500">
-        © 2024 Hadi Voyage. All rights reserved.
       </div>
     </div>
   );
