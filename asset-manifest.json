@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Hadi-Voyage/static/css/main.c837d74e.css",
-    "main.js": "/Hadi-Voyage/static/js/main.13bed6c3.js",
+    "main.js": "/Hadi-Voyage/static/js/main.8671b51d.js",
     "static/media/VirginInside.jpeg": "/Hadi-Voyage/static/media/VirginInside.158f844c638e13bf6b40.jpeg",
     "static/media/HavenOutside.jpeg": "/Hadi-Voyage/static/media/HavenOutside.b585f120b9c24ae3d52b.jpeg",
     "static/media/Launch.jpeg": "/Hadi-Voyage/static/media/Launch.8307dbd25065f1470b19.jpeg",
@@ -28,10 +28,10 @@
     "static/media/Email.png": "/Hadi-Voyage/static/media/Email.b0736794c5c792518604.png",
     "index.html": "/Hadi-Voyage/index.html",
     "main.c837d74e.css.map": "/Hadi-Voyage/static/css/main.c837d74e.css.map",
-    "main.13bed6c3.js.map": "/Hadi-Voyage/static/js/main.13bed6c3.js.map"
+    "main.8671b51d.js.map": "/Hadi-Voyage/static/js/main.8671b51d.js.map"
   },
   "entrypoints": [
     "static/css/main.c837d74e.css",
-    "static/js/main.13bed6c3.js"
+    "static/js/main.8671b51d.js"
   ]
 }
