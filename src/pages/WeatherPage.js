@@ -14,13 +14,16 @@ export default function WeatherPage() {
     async function fetchData() {
       setLoading(true);
       try {
-        const types = ["GST","CME","IPS","FLR"];
+        const types = ["GST", "CME", "IPS", "FLR"];
         const endpoints = types.map(
-          t => `https://api.nasa.gov/DONKI/${t}?startDate=2024-06-01&endDate=2024-06-30&api_key=${apiKey}`
+          (t) =>
+            `https://api.nasa.gov/DONKI/${t}?startDate=2024-06-01&endDate=2024-06-30&api_key=${apiKey}`
         );
-        const res = await Promise.all(endpoints.map(u => axios.get(u)));
-        const all = res.flatMap(r => r.data);
-        all.sort((a,b) => new Date(b.submissionTime) - new Date(a.submissionTime));
+        const res = await Promise.all(endpoints.map((u) => axios.get(u)));
+        const all = res.flatMap((r) => r.data);
+        all.sort(
+          (a, b) => new Date(b.submissionTime) - new Date(a.submissionTime)
+        );
         localStorage.setItem("cachedSpaceWeather", JSON.stringify(all));
         setEvents(all);
       } catch {
@@ -38,11 +41,11 @@ export default function WeatherPage() {
 
   const container = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
   };
   const card = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
   };
 
   return (
@@ -68,7 +71,7 @@ export default function WeatherPage() {
             animate="visible"
             variants={container}
           >
-            {current.map((ev,i) => (
+            {current.map((ev, i) => (
               <motion.article
                 key={i}
                 variants={card}
@@ -92,7 +95,7 @@ export default function WeatherPage() {
                 {ev.linkedEvents?.length > 0 && (
                   <p className="text-gray-700">
                     <span className="font-medium">Linked IDs:</span>{" "}
-                    {ev.linkedEvents.map(le => le.activityID).join(", ")}
+                    {ev.linkedEvents.map((le) => le.activityID).join(", ")}
                   </p>
                 )}
                 <div className="flex justify-between items-center flex-wrap">
@@ -116,15 +119,17 @@ export default function WeatherPage() {
         {!loading && (
           <nav className="flex justify-center items-center space-x-4">
             <button
-              onClick={() => setPage(p => Math.max(p - 1, 1))}
+              onClick={() => setPage((p) => Math.max(p - 1, 1))}
               disabled={page === 1}
               className="px-3 py-1 rounded-full bg-white shadow hover:bg-purple-100 disabled:opacity-50 transition"
             >
               ←
             </button>
-            <span className="text-gray-700">{page} / {total}</span>
+            <span className="text-gray-700">
+              {page} / {total}
+            </span>
             <button
-              onClick={() => setPage(p => Math.min(p + 1, total))}
+              onClick={() => setPage((p) => Math.min(p + 1, total))}
               disabled={page === total}
               className="px-3 py-1 rounded-full bg-white shadow hover:bg-purple-100 disabled:opacity-50 transition"
             >
@@ -134,7 +139,8 @@ export default function WeatherPage() {
         )}
 
         <p className="text-sm text-gray-500 text-center">
-          If no data appears, ensure your API key is valid and CORS policy allows requests.
+          If no data appears, ensure your API key is valid and CORS policy
+          allows requests.
         </p>
       </div>
     </section>
