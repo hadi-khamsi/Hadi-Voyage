@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.db157c97.css",
-    "main.js": "/static/js/main.7cdb8c50.js",
+    "main.css": "/static/css/main.86918b4b.css",
+    "main.js": "/static/js/main.a033b813.js",
     "static/media/VirginInside.jpeg": "/static/media/VirginInside.158f844c638e13bf6b40.jpeg",
     "static/media/HavenOutside.jpeg": "/static/media/HavenOutside.b585f120b9c24ae3d52b.jpeg",
     "static/media/Launch.jpeg": "/static/media/Launch.8307dbd25065f1470b19.jpeg",
@@ -32,11 +32,11 @@
     "static/media/Logo.png": "/static/media/Logo.3915445b022f94c0c18f.png",
     "static/media/Email.png": "/static/media/Email.b0736794c5c792518604.png",
     "index.html": "/index.html",
-    "main.db157c97.css.map": "/static/css/main.db157c97.css.map",
-    "main.7cdb8c50.js.map": "/static/js/main.7cdb8c50.js.map"
+    "main.86918b4b.css.map": "/static/css/main.86918b4b.css.map",
+    "main.a033b813.js.map": "/static/js/main.a033b813.js.map"
   },
   "entrypoints": [
-    "static/css/main.db157c97.css",
-    "static/js/main.7cdb8c50.js"
+    "static/css/main.86918b4b.css",
+    "static/js/main.a033b813.js"
   ]
 }
