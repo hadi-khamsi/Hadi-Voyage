@@ -9,7 +9,7 @@ import RisksPage from "./pages/RisksPage";
 import LaunchesPage from "./pages/LaunchesPage";
 import NewsPage from "./pages/NewsPage";
 import AboutPage from "./pages/AboutPage";
-import AircraftsPage from "./pages/AircraftsPage";
+import SpacecraftsPage from "./pages/SpacecraftsPage";
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
           <Route path="/launches" element={<LaunchesPage />} />
           <Route path="/news" element={<NewsPage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/aircrafts" element={<AircraftsPage />} />
+          <Route path="/spacecrafts" element={<SpacecraftsPage />} />
         </Routes>
       </div>
       <Footer />

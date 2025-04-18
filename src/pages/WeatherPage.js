@@ -1,158 +1,141 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { motion } from "framer-motion";
 
-const WeatherPage = () => {
-  const [weatherData, setWeatherData] = useState([]);
+export default function WeatherPage() {
+  const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const eventsPerPage = 5;
-  const apiKey = "kY9NOpRbzQNXFKLzdVyPitHdZnRJRhoLFybsD0nh";
+  const [page, setPage] = useState(1);
+  const perPage = 5;
+  const apiKey = "NO47MajqqasZv5SlhkVAjKxrp8cVyxEMuPX2VEkE";
 
   useEffect(() => {
-    const fetchData = async () => {
+    async function fetchData() {
       try {
-        const urls = [
-          `https://api.nasa.gov/DONKI/GST?startDate=2024-06-01&endDate=2024-06-30&api_key=${apiKey}`,
-          `https://api.nasa.gov/DONKI/CME?startDate=2024-06-01&endDate=2024-06-30&api_key=${apiKey}`,
-          `https://api.nasa.gov/DONKI/IPS?startDate=2024-06-01&endDate=2024-06-30&api_key=${apiKey}`,
-          `https://api.nasa.gov/DONKI/FLR?startDate=2024-06-01&endDate=2024-06-30&api_key=${apiKey}`,
-        ];
-
-        const responses = await Promise.all(urls.map((url) => axios.get(url)));
-
-        let combinedData = responses.flatMap((response) => response.data);
-        combinedData.sort(
-          (a, b) => new Date(b.submissionTime) - new Date(a.submissionTime)
+        const types = ["GST", "CME", "IPS", "FLR"];
+        const endpoints = types.map(
+          (t) =>
+            `https://api.nasa.gov/DONKI/${t}?startDate=2024-06-01&endDate=2024-06-30&api_key=${apiKey}`
         );
-
-        setWeatherData(combinedData);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching weather data:", error);
+        const res = await Promise.all(endpoints.map((u) => axios.get(u)));
+        const all = res.flatMap((r) => r.data);
+        all.sort((a, b) => new Date(b.submissionTime) - new Date(a.submissionTime));
+        setEvents(all);
+      } catch {
+      } finally {
         setLoading(false);
       }
-    };
-
-    fetchData();
-  }, [apiKey]);
-
-  const totalPages = Math.ceil(weatherData.length / eventsPerPage);
-
-  const goToNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
-
-  const goToPrevPage = () => {
-    setCurrentPage((prevPage) => prevPage - 1);
-  };
-
-  const indexOfLastEvent = currentPage * eventsPerPage;
-  const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
-  const currentEvents = weatherData.slice(indexOfFirstEvent, indexOfLastEvent);
-
-  const getEventType = (event) => {
-    if (event.hasOwnProperty("gstID")) return "Geomagnetic Storm";
-    if (event.hasOwnProperty("cmeID")) return "Coronal Mass Ejection";
-    if (event.hasOwnProperty("ipsID")) return "Interplanetary Shock";
-    if (event.hasOwnProperty("flrID")) return "Solar Flare";
-    return "Other Event";
-  };
-
-  const formatStartTime = (startTime) => {
-    const date = new Date(startTime);
-    return isNaN(date.getTime()) ? "Unknown" : date.toUTCString();
-  };
-
-  const displayEventType = (event) => {
-    if (getEventType(event) === "Other Event") {
-      return "Coronal Mass Ejection";
     }
-    return getEventType(event);
+    fetchData();
+  }, []);
+
+  const total = Math.ceil(events.length / perPage);
+  const current = events.slice((page - 1) * perPage, page * perPage);
+
+  const container = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+  };
+  const card = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-4">Space Weather Alerts</h1>
-      <p className="text-lg mb-6">
-        Real-Time Updates and Insights on Current Space Weather Events
-      </p>
+    <section className="min-h-screen bg-gradient-to-br from-indigo-50 to-white p-6 sm:p-8">
+      <div className="max-w-4xl mx-auto space-y-6">
+        <header className="text-center space-y-2">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">
+            Space Weather Alerts
+          </h1>
+          <p className="text-gray-600">
+            Live updates on geomagnetic storms, CMEs, shocks and flares.
+          </p>
+        </header>
 
-      {loading && (
-        <div className="flex items-center justify-center">
-          <div className="animate-spin rounded-full h-20 w-20 border-t-2 border-b-2 border-blue-500"></div>
-        </div>
-      )}
-
-      {!loading && (
-        <div className="space-y-8">
-          {currentEvents.map((event, index) => (
-            <div
-              key={index}
-              className="bg-white shadow-md rounded-lg p-6 transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              <h2 className="text-xl font-semibold mb-2">
-                Event Type: {displayEventType(event)}
-              </h2>
-              <p>
-                <span className="font-semibold">Start Time:</span>{" "}
-                {formatStartTime(event.startTime)}
-              </p>
-
-              {event.linkedEvents && event.linkedEvents.length > 0 && (
-                <div className="mt-4">
-                  <p className="font-semibold">Linked Events:</p>
-                  <ul className="list-disc pl-4">
-                    {event.linkedEvents.map((linkedEvent, idx) => (
-                      <li key={idx}>Activity ID: {linkedEvent.activityID}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              <button
-                onClick={() => window.open(event.link, "_blank")}
-                className="mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out"
+        {loading ? (
+          <div className="flex justify-center py-12">
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-purple-600 border-t-transparent"></div>
+          </div>
+        ) : (
+          <motion.div
+            className="grid gap-6"
+            initial="hidden"
+            animate="visible"
+            variants={container}
+          >
+            {current.map((ev, i) => (
+              <motion.article
+                key={i}
+                variants={card}
+                className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 space-y-3"
               >
-                View Report
-              </button>
+                <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">
+                  {ev.gstID
+                    ? "Geomagnetic Storm"
+                    : ev.cmeID
+                    ? "Coronal Mass Ejection"
+                    : ev.ipsID
+                    ? "Interplanetary Shock"
+                    : ev.flrID
+                    ? "Solar Flare"
+                    : "Coronal Mass Injection"}
+                </h2>
+                <p className="text-gray-700">
+                  <span className="font-medium">Start:</span>{" "}
+                  {new Date(ev.startTime).toUTCString()}
+                </p>
+                {ev.linkedEvents?.length > 0 && (
+                  <p className="text-gray-700">
+                    <span className="font-medium">Linked IDs:</span>{" "}
+                    {ev.linkedEvents.map((le) => le.activityID).join(", ")}
+                  </p>
+                )}
+                <div className="flex justify-between items-center flex-wrap">
+                  <a
+                    href={ev.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-purple-600 font-medium hover:underline"
+                  >
+                    View Report
+                  </a>
+                  <time className="text-gray-500 text-sm mt-2 sm:mt-0">
+                    {new Date(ev.submissionTime).toUTCString()}
+                  </time>
+                </div>
+              </motion.article>
+            ))}
+          </motion.div>
+        )}
 
-              <p className="mt-4">
-                <span className="font-semibold">Submission Time:</span>{" "}
-                {new Date(event.submissionTime).toUTCString()}
-              </p>
-            </div>
-          ))}
-        </div>
-      )}
+        {!loading && (
+          <nav className="flex justify-center items-center space-x-4">
+            <button
+              onClick={() => setPage((p) => Math.max(p - 1, 1))}
+              disabled={page === 1}
+              className="px-3 py-1 rounded-full bg-white shadow hover:bg-purple-100 disabled:opacity-50 transition"
+            >
+              ←
+            </button>
+            <span className="text-gray-700">
+              {page} / {total}
+            </span>
+            <button
+              onClick={() => setPage((p) => Math.min(p + 1, total))}
+              disabled={page === total}
+              className="px-3 py-1 rounded-full bg-white shadow hover:bg-purple-100 disabled:opacity-50 transition"
+            >
+              →
+            </button>
+          </nav>
+        )}
 
-      {!loading && (
-        <div className="mt-8 flex justify-between">
-          <button
-            onClick={goToPrevPage}
-            disabled={currentPage === 1}
-            className={`px-4 py-2 rounded-md ${
-              currentPage === 1
-                ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-                : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
-          >
-            Previous
-          </button>
-          <button
-            onClick={goToNextPage}
-            disabled={currentPage === totalPages || currentEvents.length === 0}
-            className={`px-4 py-2 rounded-md ${
-              currentPage === totalPages || currentEvents.length === 0
-                ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-                : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
-          >
-            Next
-          </button>
-        </div>
-      )}
-    </div>
+        <p className="text-sm text-gray-500 text-center">
+          If no data appears, ensure your API key is valid and CORS policy
+          allows requests.
+        </p>
+      </div>
+    </section>
   );
-};
-
-export default WeatherPage;
+}

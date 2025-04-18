@@ -1,224 +1,163 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { motion } from "framer-motion";
 
-const MeteorShowersPage = () => {
-  const [asteroidData, setAsteroidData] = useState([]);
+export default function MeteorShowersPage() {
+  const [asteroids, setAsteroids] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const asteroidsPerPage = 5;
-  const apiKey = "kY9NOpRbzQNXFKLzdVyPitHdZnRJRhoLFybsD0nh";
+  const [page, setPage] = useState(1);
+  const perPage = 5;
+  const apiKey = "NO47MajqqasZv5SlhkVAjKxrp8cVyxEMuPX2VEkE";
 
   useEffect(() => {
-    const fetchAsteroidData = async () => {
+    async function fetchData() {
       setLoading(true);
       try {
-        const response = await axios.get(
+        const { data } = await axios.get(
           `https://api.nasa.gov/neo/rest/v1/feed?start_date=2024-07-01&end_date=2024-07-08&api_key=${apiKey}`
         );
-        const nearEarthObjects = response.data.near_earth_objects;
-        const combinedData = Object.keys(nearEarthObjects).flatMap(
-          (date) => nearEarthObjects[date]
-        );
-        setAsteroidData(combinedData);
-      } catch (error) {
-        console.error("Error fetching asteroid data:", error);
+        const all = Object.values(data.near_earth_objects).flat();
+        setAsteroids(all);
+      } catch {
       } finally {
         setLoading(false);
       }
-    };
-
-    fetchAsteroidData();
-  }, [apiKey]);
-
-  const nextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
-
-  const prevPage = () => {
-    setCurrentPage((prevPage) => prevPage - 1);
-  };
-
-  const totalPages = Math.ceil(asteroidData.length / asteroidsPerPage);
-
-  const indexOfLastAsteroid = currentPage * asteroidsPerPage;
-  const indexOfFirstAsteroid = indexOfLastAsteroid - asteroidsPerPage;
-  const currentAsteroids = asteroidData.slice(
-    indexOfFirstAsteroid,
-    indexOfLastAsteroid
-  );
-
-  const calculateHitProbability = (
-    diameterMin,
-    diameterMax,
-    missDistance,
-    relativeVelocity
-  ) => {
-    const minArea = Math.PI * Math.pow(diameterMin / 2, 2);
-    const maxArea = Math.PI * Math.pow(diameterMax / 2, 2);
-    const area = (minArea + maxArea) / 2;
-    const crossSectionalArea = area * Math.pow(10, 6);
-    const timeToImpact = missDistance / relativeVelocity;
-    const probability = (crossSectionalArea / (timeToImpact * 3600)) * 100;
-    return probability.toFixed(2);
-  };
-
-  const estimateLocationDescription = (orbitingBody) => {
-    switch (orbitingBody) {
-      case "Earth":
-        return "Earth Orbit";
-      default:
-        return orbitingBody;
     }
+    fetchData();
+  }, []);
+
+  const total = Math.ceil(asteroids.length / perPage);
+  const current = asteroids.slice((page - 1) * perPage, page * perPage);
+
+  const calcHitProb = (min, max, missKm, velKmH) => {
+    const avg = (min + max) / 2;
+    const area = Math.PI * Math.pow((avg * 1000) / 2, 2);
+    const hours = missKm / velKmH;
+    const prob = (area / (hours * 3600)) * 100;
+    return prob.toFixed(2);
   };
 
-  const getProbabilityColor = (probability) => {
-    return probability >= 1.0 ? "text-red-500" : "text-green-500";
+  const container = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+  };
+  const card = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-4">Upcoming Near-Earth Asteroids</h1>
-      <div className="mb-6">
-        <p className="text-lg mb-2">
-          Stay updated on upcoming asteroids approaching Earth's orbit
-        </p>
-        <p className="text-lg mb-2">
-          <strong>Warning:</strong> These celestial bodies can pose potential
-          risks. Take caution regarding collision possibilities, mitigation
-          strategies, and impact areas.
+    <section className="min-h-screen bg-gradient-to-br from-indigo-50 to-white p-6 sm:p-8">
+      <div className="max-w-4xl mx-auto space-y-6">
+        <header className="text-center space-y-2">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900">
+            Upcoming Near‑Earth Asteroids
+          </h1>
+          <p className="text-gray-600">
+            Stay updated on celestial bodies approaching Earth’s orbit.
+          </p>
+        </header>
+
+        {loading ? (
+          <div className="flex justify-center py-12">
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-purple-600 border-t-transparent"></div>
+          </div>
+        ) : (
+          <motion.div
+            className="grid gap-6"
+            initial="hidden"
+            animate="visible"
+            variants={container}
+          >
+            {current.map((ast, idx) => {
+              const close = ast.close_approach_data[0] || {};
+              const minKm = ast.estimated_diameter.kilometers.estimated_diameter_min;
+              const maxKm = ast.estimated_diameter.kilometers.estimated_diameter_max;
+              const missKm = Number(close.miss_distance?.kilometers || 0);
+              const velKmH = Number(close.relative_velocity?.kilometers_per_hour || 1);
+              const prob = calcHitProb(minKm, maxKm, missKm, velKmH);
+
+              return (
+                <motion.article
+                  key={idx}
+                  variants={card}
+                  className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 space-y-4"
+                >
+                  <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">
+                    {ast.name}
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2 text-gray-700">
+                      <p>
+                        <span className="font-medium">Close Date:</span>{" "}
+                        {close.close_approach_date || "N/A"}
+                      </p>
+                      <p>
+                        <span className="font-medium">Diameter:</span>{" "}
+                        {minKm.toFixed(2)}–{maxKm.toFixed(2)} km
+                      </p>
+                      <p>
+                        <span className="font-medium">Miss Distance:</span>{" "}
+                        {close.miss_distance?.kilometers || "N/A"} km
+                      </p>
+                      <p>
+                        <span className="font-medium">Velocity:</span>{" "}
+                        {close.relative_velocity?.kilometers_per_hour || "N/A"} km/h
+                      </p>
+                    </div>
+                    <div className="space-y-2 text-gray-700">
+                      <p>
+                        <span className="font-medium">Orbit:</span>{" "}
+                        {close.orbiting_body || "N/A"}
+                      </p>
+                      <p className="mt-4 font-semibold">Impact Probability:</p>
+                      <p
+                        className={`text-3xl font-bold ${
+                          prob >= 1 ? "text-red-500" : "text-green-500"
+                        }`}
+                      >
+                        {prob}%
+                      </p>
+                      <button
+                        onClick={() => window.open(ast.nasa_jpl_url, "_blank")}
+                        className="mt-4 w-full bg-purple-600 text-white py-2 rounded-full shadow hover:bg-purple-700 transition"
+                      >
+                        View Report
+                      </button>
+                    </div>
+                  </div>
+                </motion.article>
+              );
+            })}
+          </motion.div>
+        )}
+
+        {!loading && (
+          <nav className="flex justify-center items-center space-x-4">
+            <button
+              onClick={() => setPage((p) => Math.max(p - 1, 1))}
+              disabled={page === 1}
+              className="px-3 py-1 rounded-full bg-white shadow hover:bg-purple-100 disabled:opacity-50 transition"
+            >
+              ←
+            </button>
+            <span className="text-gray-700">
+              {page} / {total}
+            </span>
+            <button
+              onClick={() => setPage((p) => Math.min(p + 1, total))}
+              disabled={page === total}
+              className="px-3 py-1 rounded-full bg-white shadow hover:bg-purple-100 disabled:opacity-50 transition"
+            >
+              →
+            </button>
+          </nav>
+        )}
+
+        <p className="text-sm text-gray-500 text-center">
+          Ensure your API key is valid if data fails to load.
         </p>
       </div>
-
-      {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
-        </div>
-      ) : (
-        <div>
-          <div className="space-y-8">
-            {currentAsteroids.map((asteroid, index) => (
-              <div
-                key={index}
-                className="bg-white shadow-md rounded-lg p-6 transform transition-transform hover:scale-105"
-              >
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0 sm:space-x-8">
-                  <div className="w-full sm:w-auto">
-                    <h2 className="text-xl font-semibold mb-2">
-                      {asteroid.name}
-                    </h2>
-                    <p>
-                      <span className="font-semibold">
-                        Close Approach Date:
-                      </span>{" "}
-                      {asteroid.close_approach_data[0]?.close_approach_date}
-                    </p>
-                    <p>
-                      <span className="font-semibold">
-                        Estimated Diameter (km):
-                      </span>{" "}
-                      {`${asteroid.estimated_diameter.kilometers.estimated_diameter_min.toFixed(
-                        2
-                      )} - ${asteroid.estimated_diameter.kilometers.estimated_diameter_max.toFixed(
-                        2
-                      )}`}
-                    </p>
-                    <p>
-                      <span className="font-semibold">Miss Distance (km):</span>{" "}
-                      {
-                        asteroid.close_approach_data[0]?.miss_distance
-                          .kilometers
-                      }
-                    </p>
-                    <p>
-                      <span className="font-semibold">
-                        Relative Velocity (km/h):
-                      </span>{" "}
-                      {
-                        asteroid.close_approach_data[0]?.relative_velocity
-                          .kilometers_per_hour
-                      }
-                    </p>
-                  </div>
-                  <div className="w-full sm:w-auto">
-                    <p className="text-lg font-semibold">Location:</p>
-                    <p>
-                      {estimateLocationDescription(
-                        asteroid.close_approach_data[0]?.orbiting_body
-                      )}
-                    </p>
-                    <p className="text-lg font-semibold mt-4">
-                      Estimated Probability of Impact:
-                    </p>
-                    <p
-                      className={`text-3xl font-bold ${getProbabilityColor(
-                        calculateHitProbability(
-                          asteroid.estimated_diameter.kilometers
-                            .estimated_diameter_min,
-                          asteroid.estimated_diameter.kilometers
-                            .estimated_diameter_max,
-                          asteroid.close_approach_data[0]?.miss_distance
-                            .kilometers,
-                          asteroid.close_approach_data[0]?.relative_velocity
-                            .kilometers_per_hour
-                        )
-                      )}`}
-                    >
-                      {calculateHitProbability(
-                        asteroid.estimated_diameter.kilometers
-                          .estimated_diameter_min,
-                        asteroid.estimated_diameter.kilometers
-                          .estimated_diameter_max,
-                        asteroid.close_approach_data[0]?.miss_distance
-                          .kilometers,
-                        asteroid.close_approach_data[0]?.relative_velocity
-                          .kilometers_per_hour
-                      )}
-                      %
-                    </p>
-                  </div>
-                  <div className="w-full sm:w-auto mt-4 sm:mt-0">
-                    <button
-                      onClick={() =>
-                        window.open(asteroid.nasa_jpl_url, "_blank")
-                      }
-                      className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
-                    >
-                      View Report
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-4 flex justify-between">
-            <button
-              onClick={prevPage}
-              disabled={currentPage === 1}
-              className={`px-4 py-2 rounded-md ${
-                currentPage === 1
-                  ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-                  : "bg-blue-500 text-white hover:bg-blue-600"
-              }`}
-            >
-              Previous
-            </button>
-            <button
-              onClick={nextPage}
-              disabled={currentPage === totalPages}
-              className={`px-4 py-2 rounded-md ${
-                currentPage === totalPages
-                  ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-                  : "bg-blue-500 text-white hover:bg-blue-600"
-              }`}
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
+    </section>
   );
-};
-
-export default MeteorShowersPage;
+}

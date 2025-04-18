@@ -1,34 +1,59 @@
-import React from "react";
+import React from 'react';
+import { motion } from 'framer-motion';
 
-const AboutPage = () => {
+export default function AboutPage() {
+  const container = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { staggerChildren: 0.2, duration: 0.6 }
+    }
+  };
+  const item = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  };
+
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col justify-center items-center py-12">
-      <div className="max-w-4xl text-center px-4">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-          Our Story
-        </h1>
-        <p className="text-lg text-gray-700 mb-8">
-          At Hadi Voyage™, we are passionate about making space travel a reality
-          for everyone. Inspired by our childhood dreams of exploring the
-          cosmos, we recognized a crucial gap in accessible, centralized
-          information for aspiring space travelers.
-        </p>
-        <p className="text-lg text-gray-700 mb-8">
-          As enthusiasts turned entrepreneurs, we embarked on a mission to
-          create Hadi Voyage – your ultimate guide to space tourism. We provide
-          comprehensive insights into the logistics, climate conditions, safety
-          measures, and unparalleled experiences that await you beyond Earth's
-          atmosphere.
-        </p>
-        <p className="text-lg text-gray-700 mb-8">
-          Join us on this journey as we pioneer the future of space exploration
-          and transform dreams into reality. Whether you're an adventurer,
-          researcher, or simply curious about the cosmos, Hadi Voyage is your
-          gateway to discovering the wonders of space.
-        </p>
-      </div>
-    </div>
-  );
-};
+    <section className="min-h-screen bg-gradient-to-br from-indigo-50 to-white flex items-center justify-center p-6">
+      <motion.div
+        className="max-w-3xl w-full space-y-8"
+        initial="hidden"
+        animate="visible"
+        variants={container}
+      >
+        <motion.h1
+          className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 text-center"
+          variants={item}
+        >
+          About Hadi Voyage
+        </motion.h1>
 
-export default AboutPage;
+        <motion.div
+          className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 space-y-6"
+          variants={item}
+        >
+          <motion.p className="text-base sm:text-lg leading-relaxed text-gray-700" variants={item}>
+            Hadi Voyage™ is an end‑to‑end platform that simplifies commercial space travel planning. We aggregate mission schedules, live orbital & climate data, safety guidelines, and booking tools into one seamless hub.
+          </motion.p>
+          <motion.p className="text-base sm:text-lg leading-relaxed text-gray-700" variants={item}>
+            Explore launch sites on our interactive map, compare spacecraft capabilities, and reserve your mission in just a few clicks. From childhood dream to reality—Hadi Voyage makes space travel accessible.
+          </motion.p>
+          <motion.p className="text-base sm:text-lg leading-relaxed text-gray-700" variants={item}>
+            Built by engineers, adventurers, and space enthusiasts, our mission is to guide you beyond Earth with clarity, safety, and confidence.
+          </motion.p>
+        </motion.div>
+
+        <motion.div className="flex justify-center" variants={item}>
+          <a
+            href="/reserve"
+            className="inline-block bg-purple-600 text-white py-3 px-6 rounded-full font-semibold shadow hover:bg-purple-700 transition"
+          >
+            Book Your Mission
+          </a>
+        </motion.div>
+      </motion.div>
+    </section>
+);
+}

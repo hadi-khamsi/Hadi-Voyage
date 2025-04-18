@@ -1,25 +1,55 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import LinkedInIcon from "../images/LinkedIn.png";
+import EmailIcon from "../images/Email.png";
+import MobileIcon from "../images/Mobile.png";
+import AppleIcon from "../images/Apple.png";
 
-const Footer = () => {
-  return (
-    <footer className="bg-black text-white p-4">
-      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
-        <div className="text-sm mb-4 md:mb-0">&copy; 2024 Hadi Voyage. All Rights Reserved.</div>
-        <div className="text-sm flex flex-wrap">
-          <Link to="/news" className="ml-4 mb-2 md:mb-0">
-            Privacy Policy
-          </Link>
-          <Link to="/news" className="ml-4 mb-2 md:mb-0">
-            Terms of Service
-          </Link>
-          <Link to="/reserve" className="ml-4 mb-2 md:mb-0">
-            Contact Us
-          </Link>
-        </div>
+const Footer = () => (
+  <footer className="bg-black text-white py-6">
+    <div className="container mx-auto flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+      <div className="text-sm">&copy; 2025 Hadi Voyage.</div>
+
+      <div className="flex space-x-4">
+        <a
+          href="https://linkedin.com/company/hadivoyage"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:opacity-80"
+        >
+          <img src={LinkedInIcon} alt="LinkedIn" className="h-6" />
+        </a>
+        <a href="mailto:8360720@gmail.com" className="hover:opacity-80">
+          <img src={EmailIcon} alt="Email" className="h-6" />
+        </a>
+        <a
+          href="https://play.google.com/store"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:opacity-80"
+        >
+          <img src={MobileIcon} alt="Google Play" className="h-6" />
+        </a>
+        <a
+          href="https://apps.apple.com/us"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:opacity-80"
+        >
+          <img src={AppleIcon} alt="App Store" className="h-6" />
+        </a>
       </div>
-    </footer>
-  );
-};
+
+      <div className="flex space-x-6 text-sm">
+        <Link to="/news" className="hover:underline">
+          Privacy Policy
+        </Link>
+        <Link to="/news" className="hover:underline">
+          Terms of Service
+        </Link>
+      </div>
+    </div>
+  </footer>
+);
 
 export default Footer;
