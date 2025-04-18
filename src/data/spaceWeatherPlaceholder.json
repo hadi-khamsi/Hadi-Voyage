@@ -1,0 +1,18 @@
+[
+  {
+    "cmeID": "31770",
+    "startTime": "2024-06-10T23:12:00Z",
+    "submissionTime": "2024-06-10T23:20:00Z",
+    "link": "https://webtools.ccmc.gsfc.nasa.gov/DONKI/view/CME/31770/1",
+    "linkedEvents": []
+  },
+  {
+    "flrID": "FLR-001",
+    "startTime": "2024-06-18T17:24:00Z",
+    "submissionTime": "2024-06-18T17:30:00Z",
+    "link": "https://webtools.ccmc.gsfc.nasa.gov/DONKI/view/FLR/12345/1",
+    "linkedEvents": [
+      { "activityID": "2024-06-18T17:24:00-FLR-001" }
+    ]
+  }
+]

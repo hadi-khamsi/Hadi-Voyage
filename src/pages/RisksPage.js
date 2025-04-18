@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
+import placeholder from "../data/asteroidPlaceholder.json";
 
 export default function MeteorShowersPage() {
   const [asteroids, setAsteroids] = useState([]);
@@ -17,8 +18,11 @@ export default function MeteorShowersPage() {
           `https://api.nasa.gov/neo/rest/v1/feed?start_date=2024-07-01&end_date=2024-07-08&api_key=${apiKey}`
         );
         const all = Object.values(data.near_earth_objects).flat();
+        localStorage.setItem("cachedAsteroids", JSON.stringify(all));
         setAsteroids(all);
       } catch {
+        const cached = localStorage.getItem("cachedAsteroids");
+        setAsteroids(cached ? JSON.parse(cached) : placeholder);
       } finally {
         setLoading(false);
       }
@@ -135,17 +139,15 @@ export default function MeteorShowersPage() {
         {!loading && (
           <nav className="flex justify-center items-center space-x-4">
             <button
-              onClick={() => setPage((p) => Math.max(p - 1, 1))}
+              onClick={() => setPage(p => Math.max(p - 1, 1))}
               disabled={page === 1}
               className="px-3 py-1 rounded-full bg-white shadow hover:bg-purple-100 disabled:opacity-50 transition"
             >
               ←
             </button>
-            <span className="text-gray-700">
-              {page} / {total}
-            </span>
+            <span className="text-gray-700">{page} / {total}</span>
             <button
-              onClick={() => setPage((p) => Math.min(p + 1, total))}
+              onClick={() => setPage(p => Math.min(p + 1, total))}
               disabled={page === total}
               className="px-3 py-1 rounded-full bg-white shadow hover:bg-purple-100 disabled:opacity-50 transition"
             >
